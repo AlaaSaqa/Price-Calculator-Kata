@@ -3,6 +3,7 @@ namespace Price_Calculator_Kata;
 public class UPCDiscount : IAmounts
 {
     public double Value { get; set; }
+    public bool IsAfter { get; set; }
     public int SelectedUPC { get; set; }
     public void ReadValueFromCustomer()
     {
@@ -44,15 +45,51 @@ public class UPCDiscount : IAmounts
     } 
     
 
+    public void ReadIsAfter()
+    {
+        while (true)
+        {
+            Console.WriteLine("Is UPC After Tax ? (Y/N) ");
+
+            string after = Console.ReadLine();
+
+            if(!CheckAfter(after))
+                Console.WriteLine("Please Enter Y For Yes And N For No  ");
+
+            else
+            {
+                return;
+            }
+
+        } 
+    }
+
+    private bool CheckAfter(string after)
+    {
+        if (after is "Y" or "y")
+        {
+            IsAfter = true;
+            return true;
+        }
+        else if (after is "N" or "n")
+        {
+            IsAfter = false;
+            return true;
+        }
+
+        return false;
+    }
+
+
     public bool CheckValue(bool IsDoubleDiscount)
     {
         return ((Value is >= 0 and <= 100) && IsDoubleDiscount);
     }
-    public double FindUPCAmount(Product product)
+    public double FindUPCAmount(double Price , int UPC)
     {
-        if (product.UPC == SelectedUPC)
+        if (UPC == SelectedUPC)
         {
-            return FindValueAmount(product.Price);
+            return FindValueAmount(Price);
         }
         return 0;
     } 

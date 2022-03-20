@@ -4,7 +4,7 @@ public class Program
     public static void Main(string[] args)
     {
         ProductsList.ReadProducts();
-        Calculations.FindTax(ProductsList.Products);
+        Calculations.Find(ProductsList.Products);
     }
 
 }
