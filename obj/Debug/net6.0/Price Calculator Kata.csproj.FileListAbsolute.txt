@@ -1,0 +1,15 @@
+C:\Users\Msys\RiderProjects\Price Calculator Kata\Price Calculator Kata\bin\Debug\net6.0\Price Calculator Kata.exe
+C:\Users\Msys\RiderProjects\Price Calculator Kata\Price Calculator Kata\bin\Debug\net6.0\Price Calculator Kata.deps.json
+C:\Users\Msys\RiderProjects\Price Calculator Kata\Price Calculator Kata\bin\Debug\net6.0\Price Calculator Kata.runtimeconfig.json
+C:\Users\Msys\RiderProjects\Price Calculator Kata\Price Calculator Kata\bin\Debug\net6.0\Price Calculator Kata.dll
+C:\Users\Msys\RiderProjects\Price Calculator Kata\Price Calculator Kata\bin\Debug\net6.0\Price Calculator Kata.pdb
+C:\Users\Msys\RiderProjects\Price Calculator Kata\Price Calculator Kata\obj\Debug\net6.0\Price Calculator Kata.csproj.AssemblyReference.cache
+C:\Users\Msys\RiderProjects\Price Calculator Kata\Price Calculator Kata\obj\Debug\net6.0\Price Calculator Kata.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Msys\RiderProjects\Price Calculator Kata\Price Calculator Kata\obj\Debug\net6.0\Price Calculator Kata.AssemblyInfoInputs.cache
+C:\Users\Msys\RiderProjects\Price Calculator Kata\Price Calculator Kata\obj\Debug\net6.0\Price Calculator Kata.AssemblyInfo.cs
+C:\Users\Msys\RiderProjects\Price Calculator Kata\Price Calculator Kata\obj\Debug\net6.0\Price Calculator Kata.csproj.CoreCompileInputs.cache
+C:\Users\Msys\RiderProjects\Price Calculator Kata\Price Calculator Kata\obj\Debug\net6.0\Price Calculator Kata.dll
+C:\Users\Msys\RiderProjects\Price Calculator Kata\Price Calculator Kata\obj\Debug\net6.0\refint\Price Calculator Kata.dll
+C:\Users\Msys\RiderProjects\Price Calculator Kata\Price Calculator Kata\obj\Debug\net6.0\Price Calculator Kata.pdb
+C:\Users\Msys\RiderProjects\Price Calculator Kata\Price Calculator Kata\obj\Debug\net6.0\Price Calculator Kata.genruntimeconfig.cache
+C:\Users\Msys\RiderProjects\Price Calculator Kata\Price Calculator Kata\obj\Debug\net6.0\ref\Price Calculator Kata.dll
