@@ -6,26 +6,23 @@ public class Calculations
     {
         Tax tax = new Tax();
         Discount discount = new Discount();
+        UPCDiscount upcDiscount = new UPCDiscount();
         
         tax.ReadValueFromCustomer();
         discount.ReadValueFromCustomer();
+        upcDiscount.ReadValueFromCustomer();
+        upcDiscount.ReadUPCValueFromCustomer();
         
         foreach (var product in products)
         {
             product.PrintProductTitle();
             double TaxAmount = tax.FindValueAmount(product.Price);
             double DiscountAmount = discount.FindValueAmount(product.Price);
-            double FinalPrice = FindFinalPrice(TaxAmount,DiscountAmount,product.Price);
+            double UPCDiscount = upcDiscount.FindUPCAmount(product);
+            double FinalPrice = FindFinalPrice(TaxAmount,DiscountAmount+UPCDiscount,product.Price);
+
             Console.WriteLine($"Program prints price ${Convert.ToTwoDicimalDigits(FinalPrice)}");
-            
-            if (discount.Value == 0)
-            {
-                Console.WriteLine($"Program doesn’t show any discounted amount.");    
-            }
-            else
-            {
-                Console.WriteLine($"Program displays ${Convert.ToTwoDicimalDigits(DiscountAmount)} amount which was deduced");
-            }
+            Console.WriteLine($"Program reports total discount amount ${Convert.ToTwoDicimalDigits(UPCDiscount+DiscountAmount)}");
         }
     }
 
