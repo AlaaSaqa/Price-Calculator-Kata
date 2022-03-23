@@ -66,12 +66,15 @@ public class CalculationsIsAfterOrBefore
         Console.WriteLine($"Tax = ${Convert.ToTwoDicimalDigits(TaxAmount)}");
         return Calculations.FindFinalPrice(TaxAmount,DiscountAmount+UPCDiscount,product.Price);
     }
-    private static void PrintAllCosts(double totalDiscount, double totalPrice, Product product)
+    public static void PrintAllCosts(double totalDiscount, double totalPrice, Product product)
     {
+
         double finalPrice = totalPrice + Calculations.packaging.FinalCostValue(product.Price) + Calculations.transport.FinalCostValue(product.Price);
-        
-        if(totalDiscount!=0)
+            
+        if (totalDiscount != 0)
+        {
             Console.WriteLine($"Discounts = ${Convert.ToTwoDicimalDigits(totalDiscount)}");
+        }
         
         if (Calculations.packaging.CostValue != 0)
         {

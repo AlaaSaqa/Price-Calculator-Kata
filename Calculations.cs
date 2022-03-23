@@ -45,6 +45,7 @@ public class Calculations
         upcDiscount.ReadUPCValueFromCustomer();
         packaging.ReadValue();
         transport.ReadValue();
+        cap.ReadValue();
         ReadDiscountCountingType();
         if (discountCountingType == DiscountCountingType.AfterOrBeforeTaxPriority)
         {
@@ -89,6 +90,9 @@ public class Calculations
 
     public static double FindFinalPrice(double tax, double discount, double productPrice)
     {
+        discount = discount < Calculations.cap.FinalCostValue(productPrice)
+            ?cap.FinalCostValue(productPrice)
+            : discount;
         return productPrice + tax - discount;
     }
 }

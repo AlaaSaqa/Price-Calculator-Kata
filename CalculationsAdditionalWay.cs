@@ -9,13 +9,21 @@ public class CalculationsAdditionalWay
                            Calculations.upcDiscount.FindUPCAmount(product.Price, product.UPC);
         double packaging = Calculations.packaging.FinalCostValue(product.Price);
         double transports = Calculations.transport.FinalCostValue(product.Price);
+        DiscountsAmount = DiscountsAmount > Calculations.cap.FinalCostValue(product.Price)
+            ? Calculations.cap.FinalCostValue(product.Price)
+            : DiscountsAmount;
+        
         double total = Calculations.FindFinalPrice(TaxAmount, DiscountsAmount, product.Price + packaging + transports);
+       
+       
         
         Console.WriteLine($"Cost = {product.Price}");
         Console.WriteLine($"Tax = {Convert.ToTwoDicimalDigits(TaxAmount)}");
         Console.WriteLine($"Discounts = {Convert.ToTwoDicimalDigits(DiscountsAmount)}");
-        Console.WriteLine($"Packaging = {Convert.ToTwoDicimalDigits(packaging)}");
-        Console.WriteLine($"Transport = {Convert.ToTwoDicimalDigits(transports)}");
+        if(packaging!=0)
+            Console.WriteLine($"Packaging = {Convert.ToTwoDicimalDigits(packaging)}");
+        if(transports!=0)
+            Console.WriteLine($"Transport = {Convert.ToTwoDicimalDigits(transports)}");
         Console.WriteLine($"TOTAL = {Convert.ToTwoDicimalDigits(total)}");
         Console.WriteLine($"Program separately reports {Convert.ToTwoDicimalDigits(DiscountsAmount)} total discount"); 
     }
