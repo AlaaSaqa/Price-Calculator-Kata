@@ -2,12 +2,13 @@ namespace Price_Calculator_Kata;
 
 public class Calculations
 {
-    static Tax tax = new Tax();
-    static Discount discount = new Discount();
-    static UPCDiscount upcDiscount = new UPCDiscount();
-    static Costs packaging = new Costs(CostTypes.Packaging);
-    static Costs transport = new Costs(CostTypes.Transport);
-    
+    public static Tax tax = new Tax();
+    public static Discount discount = new Discount();
+    public static UPCDiscount upcDiscount = new UPCDiscount();
+    public static Costs packaging = new Costs(CostTypes.Packaging);
+    public static Costs transport = new Costs(CostTypes.Transport);
+    public static Costs cap = new Costs(CostTypes.Cap);
+    public static DiscountCountingType discountCountingType { get; set; }
     
     public static void FindAllCustomerNeeds(List<Product> products)
     {
@@ -15,111 +16,78 @@ public class Calculations
         foreach (var product in products)
         {
             product.PrintProductTitle();
-            double totalDiscount=0;
-            double totalPrice=0;
-            
-            Console.WriteLine($"Cost = ${product.Price}");
 
-            switch (upcDiscount.IsAfter)
+            if (discountCountingType == DiscountCountingType.AfterOrBeforeTaxPriority)
             {
-                case true when discount.IsAfter:
-                    totalPrice= AllDiscountsAfter(product,out totalDiscount);
-                    break;
-                case true when !discount.IsAfter:
-                    totalPrice=UpcDiscountAfter(product,out totalDiscount);
-                    break;
-                case false when discount.IsAfter:
-                    totalPrice=UniversalDiscountAfter(product,out totalDiscount);
-                    break;
-                case false when !discount.IsAfter:
-                    totalPrice=AllDiscountsBefore(product,out totalDiscount);
-                    break;
+               CalculationsIsAfterOrBefore.DoCalculationsForIsAfterOrBefore(product);
+               continue;
             }
-
-            PrintAllCosts(totalDiscount, totalPrice, product);
+            if (discountCountingType == DiscountCountingType.Multiplicative)
+            {
+                CalculationsMultiplicativeWay.DoCalculationsForMultiplicativeWay(product);
+                continue;
+            } 
+            if (discountCountingType == DiscountCountingType.Additive)
+            {
+                CalculationsAdditionalWay.DoCalculationsForAdditionalWay(product);
+                continue;
+            }
+            
+            
         }
     }
-
-    private static void PrintAllCosts(double totalDiscount, double totalPrice, Product product)
-    {
-        double finalPrice = totalPrice + packaging.FinalCostValue(product.Price) + transport.FinalCostValue(product.Price);
-        
-        if(totalDiscount!=0)
-            Console.WriteLine($"Discounts = ${Convert.ToTwoDicimalDigits(totalDiscount)}");
-        
-        if (packaging.CostValue != 0)
-        {
-            Console.Write($"Packaging = ${Convert.ToTwoDicimalDigits(packaging.FinalCostValue(product.Price))}");
-            Console.WriteLine(packaging.IsAbsolute?"":"%");
-        }
-
-        if (transport.CostValue != 0)
-        {
-            Console.Write($"Transport = ${transport.CostValue}");
-            Console.WriteLine(transport.IsAbsolute?"":"%");
-        }
-        
-        Console.WriteLine($"TOTAL = ${Convert.ToTwoDicimalDigits(finalPrice)}");
-       
-        if(totalDiscount!=0)
-            Console.WriteLine($"Program separately reports ${Convert.ToTwoDicimalDigits(totalDiscount)} total discount");
-        else 
-            Console.WriteLine("Program reports no discounts");
-    }
-
-    private static double AllDiscountsBefore(Product product,out double totalDiscount)
-    {
-        double DiscountAmount = discount.FindValueAmount(product.Price);
-        double UPCDiscount=upcDiscount.FindUPCAmount(product.Price,product.UPC);
-        double TaxAmount = tax.FindValueAmount(product.Price-DiscountAmount-UPCDiscount);
-        totalDiscount = UPCDiscount + DiscountAmount;
-        Console.WriteLine($"Tax = ${Convert.ToTwoDicimalDigits(TaxAmount)}");
-        return FindFinalPrice(TaxAmount,DiscountAmount+UPCDiscount,product.Price);
-    }
-
-    private static double UniversalDiscountAfter(Product product, out double totalDiscount)
-    {
-        double UPCDiscount = upcDiscount.FindUPCAmount(product.Price,product.UPC);
-        double DiscountAmount = discount.FindValueAmount(product.Price-UPCDiscount);
-        double TaxAmount = tax.FindValueAmount(product.Price-UPCDiscount);
-        totalDiscount = UPCDiscount + DiscountAmount;
-        Console.WriteLine($"Tax = ${Convert.ToTwoDicimalDigits(TaxAmount)}");
-        return FindFinalPrice(TaxAmount,DiscountAmount+UPCDiscount,product.Price);
-    }
-
-    private static double UpcDiscountAfter(Product product , out double totalDiscount)
-    {
-        double DiscountAmount = discount.FindValueAmount(product.Price);
-        double UPCDiscount = upcDiscount.FindUPCAmount(product.Price-DiscountAmount,product.UPC);
-        double TaxAmount = tax.FindValueAmount(product.Price-DiscountAmount);
-        totalDiscount = UPCDiscount + DiscountAmount;
-        Console.WriteLine($"Tax = ${Convert.ToTwoDicimalDigits(TaxAmount)}");
-        return FindFinalPrice(TaxAmount,DiscountAmount+UPCDiscount,product.Price);
-    }
-
-    private static double AllDiscountsAfter(Product product , out double totalDiscount)
-    {
-        double TaxAmount = tax.FindValueAmount(product.Price);
-        double DiscountAmount = discount.FindValueAmount(product.Price);
-        double UPCDiscount = upcDiscount.FindUPCAmount(product.Price,product.UPC);
-        totalDiscount = UPCDiscount + DiscountAmount;
-        Console.WriteLine($"Tax = ${Convert.ToTwoDicimalDigits(TaxAmount)}");
-        return FindFinalPrice(TaxAmount,DiscountAmount+UPCDiscount,product.Price);
-    }
-
+    
     private static void SetObjectsValues()
     {
         tax.ReadValueFromCustomer();
         discount.ReadValueFromCustomer();
         upcDiscount.ReadValueFromCustomer();
         upcDiscount.ReadUPCValueFromCustomer();
-        discount.ReadIsAfter();
-        upcDiscount.ReadIsAfter();
         packaging.ReadValue();
         transport.ReadValue();
+        ReadDiscountCountingType();
+        if (discountCountingType == DiscountCountingType.AfterOrBeforeTaxPriority)
+        {
+            discount.ReadIsAfter();
+            upcDiscount.ReadIsAfter();
+        }
     }
-    
-    private static double FindFinalPrice(double tax, double discount, double productPrice)
+
+    public static void ReadDiscountCountingType()
+    {
+        Console.WriteLine("Please Select Discount Counting Type You Want");
+        Console.WriteLine("1. After Or Before Priority ");
+        Console.WriteLine("2. Additive Method");
+        Console.WriteLine("3. Multiplicative Method");
+        int calculationMethod = 0;
+        bool IsValidChoice = int.TryParse(Console.ReadLine(),out calculationMethod);
+
+        if (IsValidChoice)
+        {
+            switch (calculationMethod)
+            {
+                case 1:
+                {
+                    discountCountingType = DiscountCountingType.AfterOrBeforeTaxPriority;
+                    return;
+                }
+                case 2:
+                {
+                    discountCountingType = DiscountCountingType.Additive;
+                    return;
+                }
+                case 3:
+                {
+                    discountCountingType = DiscountCountingType.Multiplicative;
+                    return;
+                }
+            }
+            ReadDiscountCountingType();
+        }
+
+    }
+
+    public static double FindFinalPrice(double tax, double discount, double productPrice)
     {
         return productPrice + tax - discount;
     }
