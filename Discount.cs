@@ -1,10 +1,11 @@
 namespace Price_Calculator_Kata;
 
-public class Discount : IAmounts
+public class Discount : IAmounts ,IAfter
 {
     public double Value { get; set; }
-    
     public bool IsAfter { get; set; }
+    
+    
     public void ReadValueFromCustomer()
     {
         while (true)
@@ -41,8 +42,7 @@ public class Discount : IAmounts
 
         } 
     }
-
-    private bool CheckAfter(string? after)
+    public bool CheckAfter(string? after)
     {
         if (after is "Y" or "y")
         {
@@ -61,7 +61,6 @@ public class Discount : IAmounts
     {
         return ((Value is >= 0 and <= 100 ) && IsDoubleDiscount);
     }
-
     public double FindValueAmount(double Price)
     {
         return (Price * (Value / 100.0)); 

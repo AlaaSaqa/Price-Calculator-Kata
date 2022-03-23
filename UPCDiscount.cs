@@ -1,10 +1,16 @@
 namespace Price_Calculator_Kata;
 
-public class UPCDiscount : IAmounts
+public class UPCDiscount : IAmounts ,IAfter
 {
     public double Value { get; set; }
-    public bool IsAfter { get; set; }
-    public int SelectedUPC { get; set; }
+    public double FindValueAmount(double Price)
+    {
+        return (Price * (Value / 100.0)); 
+    }
+    public bool CheckValue(bool IsDoubleDiscount)
+    {
+        return ((Value is >= 0 and <= 100) && IsDoubleDiscount);
+    }
     public void ReadValueFromCustomer()
     {
         while (true)
@@ -24,6 +30,11 @@ public class UPCDiscount : IAmounts
 
         } 
     }
+    
+    
+    public bool IsAfter { get; set; }
+    public int SelectedUPC { get; set; }
+    
     public void ReadUPCValueFromCustomer()
     {
         while (true)
@@ -42,9 +53,7 @@ public class UPCDiscount : IAmounts
             Console.WriteLine("Please Enter Int Number For UPC  ");
 
         } 
-    } 
-    
-
+    }
     public void ReadIsAfter()
     {
         while (true)
@@ -62,9 +71,8 @@ public class UPCDiscount : IAmounts
             }
 
         } 
-    }
-
-    private bool CheckAfter(string after)
+    }//
+    public bool CheckAfter(string after)
     {
         if (after is "Y" or "y")
         {
@@ -79,12 +87,6 @@ public class UPCDiscount : IAmounts
 
         return false;
     }
-
-
-    public bool CheckValue(bool IsDoubleDiscount)
-    {
-        return ((Value is >= 0 and <= 100) && IsDoubleDiscount);
-    }
     public double FindUPCAmount(double Price , int UPC)
     {
         if (UPC == SelectedUPC)
@@ -93,8 +95,4 @@ public class UPCDiscount : IAmounts
         }
         return 0;
     } 
-    public double FindValueAmount(double Price)
-    {
-        return (Price * (Value / 100.0)); 
-    }
 }
