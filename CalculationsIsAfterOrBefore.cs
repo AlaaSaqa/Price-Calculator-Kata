@@ -7,7 +7,7 @@ public class CalculationsIsAfterOrBefore
         double totalDiscount=0;
         double totalPrice=0;
             
-        Console.WriteLine($"Cost = ${product.Price}");
+        Console.WriteLine($"Cost = ${Convert.ToTwoDicimalDigits(product.Price,product.Currency)}");
 
         switch (Calculations.upcDiscount.IsAfter)
         {
@@ -33,7 +33,7 @@ public class CalculationsIsAfterOrBefore
         double UPCDiscount=Calculations.upcDiscount.FindUPCAmount(product.Price,product.UPC);
         double TaxAmount = Calculations.tax.FindValueAmount(product.Price-DiscountAmount-UPCDiscount);
         totalDiscount = UPCDiscount + DiscountAmount;
-        Console.WriteLine($"Tax = ${Convert.ToTwoDicimalDigits(TaxAmount)}");
+        Console.WriteLine($"Tax = ${Convert.ToTwoDicimalDigits(TaxAmount,product.Currency)}");
         return Calculations.FindFinalPrice(TaxAmount,DiscountAmount+UPCDiscount,product.Price);
     }
 
@@ -43,7 +43,7 @@ public class CalculationsIsAfterOrBefore
         double DiscountAmount = Calculations.discount.FindValueAmount(product.Price-UPCDiscount);
         double TaxAmount = Calculations.tax.FindValueAmount(product.Price-UPCDiscount);
         totalDiscount = UPCDiscount + DiscountAmount;
-        Console.WriteLine($"Tax = ${Convert.ToTwoDicimalDigits(TaxAmount)}");
+        Console.WriteLine($"Tax = ${Convert.ToTwoDicimalDigits(TaxAmount,product.Currency)}");
         return Calculations.FindFinalPrice(TaxAmount,DiscountAmount+UPCDiscount,product.Price);
     }
 
@@ -53,7 +53,7 @@ public class CalculationsIsAfterOrBefore
         double UPCDiscount = Calculations.upcDiscount.FindUPCAmount(product.Price-DiscountAmount,product.UPC);
         double TaxAmount = Calculations.tax.FindValueAmount(product.Price-DiscountAmount);
         totalDiscount = UPCDiscount + DiscountAmount;
-        Console.WriteLine($"Tax = ${Convert.ToTwoDicimalDigits(TaxAmount)}");
+        Console.WriteLine($"Tax = ${Convert.ToTwoDicimalDigits(TaxAmount,product.Currency)}");
         return Calculations.FindFinalPrice(TaxAmount,DiscountAmount+UPCDiscount,product.Price);
     }
 
@@ -63,7 +63,7 @@ public class CalculationsIsAfterOrBefore
         double DiscountAmount = Calculations.discount.FindValueAmount(product.Price);
         double UPCDiscount = Calculations.upcDiscount.FindUPCAmount(product.Price,product.UPC);
         totalDiscount = UPCDiscount + DiscountAmount;
-        Console.WriteLine($"Tax = ${Convert.ToTwoDicimalDigits(TaxAmount)}");
+        Console.WriteLine($"Tax = ${Convert.ToTwoDicimalDigits(TaxAmount,product.Currency)}");
         return Calculations.FindFinalPrice(TaxAmount,DiscountAmount+UPCDiscount,product.Price);
     }
     public static void PrintAllCosts(double totalDiscount, double totalPrice, Product product)
@@ -73,23 +73,23 @@ public class CalculationsIsAfterOrBefore
             
         if (totalDiscount != 0)
         {
-            Console.WriteLine($"Discounts = ${Convert.ToTwoDicimalDigits(totalDiscount)}");
+            Console.WriteLine($"Discounts = ${Convert.ToTwoDicimalDigits(totalDiscount,product.Currency)}");
         }
         
         if (Calculations.packaging.CostValue != 0)
         {
-            Console.Write($"Packaging = ${Convert.ToTwoDicimalDigits(Calculations.packaging.FinalCostValue(product.Price))}");
+            Console.Write($"Packaging = ${Convert.ToTwoDicimalDigits(Calculations.packaging.FinalCostValue(product.Price),product.Currency)}");
         }
 
         if (Calculations.transport.CostValue != 0)
         {
-            Console.Write($"Transport = ${Calculations.transport.CostValue}");
+            Console.Write($"Transport = ${Convert.ToTwoDicimalDigits(Calculations.transport.CostValue,product.Currency)}");
         }
         
-        Console.WriteLine($"TOTAL = ${Convert.ToTwoDicimalDigits(finalPrice)}");
+        Console.WriteLine($"TOTAL = ${Convert.ToTwoDicimalDigits(finalPrice,product.Currency)}");
        
         if(totalDiscount!=0)
-            Console.WriteLine($"Program separately reports ${Convert.ToTwoDicimalDigits(totalDiscount)} total discount");
+            Console.WriteLine($"Program separately reports ${Convert.ToTwoDicimalDigits(totalDiscount,product.Currency)} total discount");
         else 
             Console.WriteLine("Program reports no discounts");
     }

@@ -2,9 +2,9 @@ namespace Price_Calculator_Kata;
 
 public class Convert
 {
-    public static string ToTwoDicimalDigits(double value)
+    public static string ToTwoDicimalDigits(double value,string currency)
     {
         // value = Math.Truncate(value * 100) / 100;
-        return string.Format("{0:0.00}", value);
+        return string.Format("{0:0.00}", value)+" "+currency;
     }
 }

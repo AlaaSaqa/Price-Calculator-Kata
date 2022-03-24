@@ -26,10 +26,30 @@ public class ProductsList : IEnumerable<Product>
             string name = ReadProductName();
             int upc = ReadProductUPC();
             double price = ReadProductPrice();
-
-            Product product = new Product(name, upc, price);
+            string currrency = ReadProductCurrency();
+            
+            
+            Product product = new Product(name, upc, price,currrency);
             Products.Add(product);
         }
+    }
+
+    private static string ReadProductCurrency()
+    {
+        while (true)
+        {
+            Console.WriteLine("Enter Product Currency : ");
+
+            string currency = Console.ReadLine();
+
+            if (currency.Length == 3)
+            {
+                return currency.ToUpper();
+            }
+            
+            Console.WriteLine("Please Enter ISO-3 codes currency");
+
+        } 
     }
 
     private static double ReadProductPrice()

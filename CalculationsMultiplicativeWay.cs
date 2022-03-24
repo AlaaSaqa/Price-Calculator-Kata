@@ -15,15 +15,15 @@ public class CalculationsMultiplicativeWay
         
         double total = Calculations.FindFinalPrice(TaxAmount, DiscountsAmount, product.Price + packaging + transports);
         
-        Console.WriteLine($"Cost = {product.Price}");
-        Console.WriteLine($"Tax = {Convert.ToTwoDicimalDigits(TaxAmount)}");
-        Console.WriteLine($"Discounts = {Convert.ToTwoDicimalDigits(DiscountsAmount)}");
+        Console.WriteLine($"Cost = {Convert.ToTwoDicimalDigits(product.Price,product.Currency)}");
+        Console.WriteLine($"Tax = {Convert.ToTwoDicimalDigits(TaxAmount,product.Currency)}");
+        Console.WriteLine($"Discounts = {Convert.ToTwoDicimalDigits(DiscountsAmount,product.Currency)}");
         if(packaging!=0)
-            Console.WriteLine($"Packaging = {Convert.ToTwoDicimalDigits(packaging)}");
+            Console.WriteLine($"Packaging = {Convert.ToTwoDicimalDigits(packaging,product.Currency)}");
         if(transports!=0)
-            Console.WriteLine($"Transport = {Convert.ToTwoDicimalDigits(transports)}");
-        Console.WriteLine($"TOTAL = {Convert.ToTwoDicimalDigits(total)}");
-        Console.WriteLine($"Program separately reports {Convert.ToTwoDicimalDigits(DiscountsAmount)} total discount"); 
+            Console.WriteLine($"Transport = {Convert.ToTwoDicimalDigits(transports,product.Currency)}");
+        Console.WriteLine($"TOTAL = {Convert.ToTwoDicimalDigits(total,product.Currency)}");
+        Console.WriteLine($"Program separately reports {Convert.ToTwoDicimalDigits(DiscountsAmount,product.Currency)} total discount"); 
 
     }
 }
